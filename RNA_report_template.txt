@@ -1,0 +1,48 @@
+
+Data quality report for work order: ${WOID}
+
+QC Pass Metrics
+Alignment Rate: 0.70 for human (0.60 for mouse)
+No other metric required/reviewed for assignment of QC pass/fail judgement
+
+Additional Reviewed Metrics (preferred thresholds):
+% rRNA bases (PCT_RIBOSOMAL_BASES): ≤ 0.05
+Coding + UTR + Intronic(PCT_SUM): ≥ 0.75
+ERCC Mix1 Control: Correlation coefficient preferred value R^2: ≥ .90 
+
+SEQUENCING_NOTE: https://confluence.ris.wustl.edu/pages/viewpage.action?spaceKey=AD&title=WorkOrder+${WOID}
+
+Number of Flow Cell Lanes or Desired Coverage:
+Special Instructions:
+ 
+QC Summary Report:
+Number of samples QC'ed = ${SAMPLE_NUMBER}
+Number of samples that pass required metrics for ALIGNMENT_RATE = ${PASS_SAMPLES}
+Number of samples that fail required metric for ALIGNMENT_RATE = ${ALN_FAIL}
+
+Additional Reviewed Metric Fails:
+PCT_RIBOSOMAL_BASES = ${PCT_RIB_FAIL}
+Coding + UTR + Intronic (PCT_SUM) = ${PCT_SUM_FAIL}
+ERCC Mix1 Control: Correlation coefficient preferred value R^2: = ${ERCC_FAIL}
+
+QC Summary Statistics:
+AVERAGE ALIGNMENT_RATE = ${AVG_ALN_RATE}
+AVERAGE ERCC R^2 = ${AVG_ERCC}
+AVERAGE PCT_CODING_BASES = ${AVG_CODING_BASES}
+AVERAGE PCT_INTERGENIC_BASES = ${AVG_PCT_INT_BASES}
+AVERAGE PCT_RIBOSOMAL_BASES = ${AVG_RIB_BASES}
+AVERAGE PCT_SUM = ${AVG_PCT_SUM}
+AVERAGE PF_ALIGNED_BASES = ${AVG_PF_ALIGNED_BASES}
+AVERAGE PCT_CORRECT_STRAND_READS = ${AVG_PCT_CORRECT_STRAND_READS}
+ 
+Data Transfer Directory =
+cd to parent data dir
+cd to model_data 
+mkdir data_transfer/${WOID}
+genome model cwl-pipeline prep-for-transfer --md5sum --directory=full_path../data_transfer/${WOID}  --builds ${BUILDS} or model_groups.project.id=${WOID}
+ 
+Additonal Comments:
+
+Attachments:
+${RESULTS_SPREADSHEET}
+
