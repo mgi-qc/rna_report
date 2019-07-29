@@ -11,6 +11,7 @@ Coding + UTR + Intronic(PCT_SUM): ≥ 0.75
 ERCC Mix1 Control: Correlation coefficient preferred value R^2: ≥ .90 
 
 SEQUENCING_NOTE: https://confluence.ris.wustl.edu/pages/viewpage.action?spaceKey=AD&title=WorkOrder+${WOID}
+${SEQ_NOTE}
 
 Number of Flow Cell Lanes or Desired Coverage:
 Special Instructions:

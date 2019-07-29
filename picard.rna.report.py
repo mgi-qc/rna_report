@@ -12,6 +12,9 @@ parser.add_argument('-m', help='Mouse metrics', action='store_true')
 parser.add_argument('-e', help='ercc values', action='store_true')
 args = parser.parse_args()
 
+#test!
+args.hu = True
+
 if not (args.hu or args.m):
     sys.exit('Please specify -hu (human) or -m (mouse) flag.')
 
@@ -47,6 +50,7 @@ if not os.path.isfile('/gscmnt/gc2783/qc/GMSworkorders/reports/RNA_report_templa
 with open('/gscmnt/gc2783/qc/GMSworkorders/reports/RNA_report_template.txt', 'r', encoding='utf-8') as fh:
     template = fh.read()
     template_file = Template(template)
+
 
 with open(picard_file, 'r') as fh:
 
@@ -104,6 +108,34 @@ with open(picard_file, 'r') as fh:
 
 header.extend(['ERCC_Value', 'QC_Status', 'Preferred_Metric_Failures'])
 
+seq_notes = []
+
+print('Confluence Link:\nhttps://confluence.ris.wustl.edu/pages/viewpage.action?spaceKey=AD&title=WorkOrder+{}'.format(template_file_dict['WOID']))
+seq_in = input('Would you like to add a sequencing note? (y/n)')
+
+while True:
+    if seq_in == 'y':
+        #get seq note
+        print('Enter "return q return" to exit when finished:')
+        while True:
+            note_line = input()
+            if note_line != 'q':
+                seq_notes.append(note_line)
+            else:
+                print('Skipping sequencing note')
+                break
+        break
+
+    elif seq_in == 'n':
+        break
+
+    else:
+        print('Please enter "y" or "n"')
+
+seq_note = ''
+for l in seq_notes:
+    seq_note += l + '\n'
+
 with open(report_outfile, 'w', encoding='utf-8') as fh:
     fh.write(template_file.substitute(WOID=template_file_dict['WOID'],
                                       SAMPLE_NUMBER=len(results),
@@ -121,7 +153,8 @@ with open(report_outfile, 'w', encoding='utf-8') as fh:
                                       AVG_PF_ALIGNED_BASES=tot_pf_aln_bases / len(results),
                                       AVG_PCT_CORRECT_STRAND_READS=tot_cor_strnd_reads / len(results),
                                       BUILDS=','.join(last_succeeded_build_id),
-                                      RESULTS_SPREADSHEET=outfile))
+                                      RESULTS_SPREADSHEET=outfile,
+                                      SEQ_NOTE=seq_note))
 
 with open(outfile, 'w') as of:
     ofd = csv.DictWriter(of, fieldnames=header, delimiter='\t')
